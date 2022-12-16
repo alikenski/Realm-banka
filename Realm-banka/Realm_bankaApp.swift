@@ -11,7 +11,9 @@ import SwiftUI
 struct Realm_bankaApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                ContentView()
+            }
         }
     }
 }

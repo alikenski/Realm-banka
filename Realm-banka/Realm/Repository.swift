@@ -10,4 +10,7 @@ import Foundation
 protocol Repository {
     func topUpBankas(list: [BankaModel], completion: (() -> Void)?)
     func getBanks() -> [BankaModel]
+    func addQuotes(list: [QuoteModel], completion: (() -> Void)?)
+    func getQuotes() -> [QuoteModel]
+    func deleteQuotes()
 }

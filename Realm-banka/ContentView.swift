@@ -35,8 +35,12 @@ struct ContentView: View {
             }
             
             Spacer()
-            Button("Save") {
-                viewModel.calculate()
+            HStack {
+                Button("Save") {
+                    viewModel.calculate()
+                }
+                
+                NavigationLink("Network", destination: NetworkScreen())
             }
             Spacer()
         }

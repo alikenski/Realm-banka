@@ -9,7 +9,7 @@ import Foundation
 import Realm
 import RealmSwift
 
-class RealmBanka: RealmSwiftObject {
+class RealmBankaModel: RealmSwiftObject {
     @Persisted(primaryKey: true) var id: Int
     @Persisted var title: String
     @Persisted var percent: Double

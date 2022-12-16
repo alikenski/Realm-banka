@@ -19,6 +19,7 @@ class Storage {
         BankaModel(id: 5, title: "Резерв", amount: 0, percent: 10),
         BankaModel(id: 6, title: "Благотворительность", amount: 0, percent: 5)
     ]
+    private var id: Int = 5
     
     init() {
         let realmUrl = try! FileManager.default.url(
@@ -38,12 +39,12 @@ class Storage {
     }
     
     private func checkBankas() {
-        let result = instance.objects(RealmBanka.self)
+        let result = instance.objects(RealmBankaModel.self)
         
         if result.isEmpty {
             defaultBankas.forEach({ banka in
                 
-                let realmBanka = RealmBanka()
+                let realmBanka = RealmBankaModel()
                 realmBanka.id = banka.id
                 realmBanka.title = banka.title
                 realmBanka.percent = banka.percent
@@ -66,7 +67,7 @@ class Storage {
 extension Storage: Repository {
     func topUpBankas(list: [BankaModel], completion: (() -> Void)? = nil) {
         list.forEach { banka in
-            let result = instance.objects(RealmBanka.self)
+            let result = instance.objects(RealmBankaModel.self)
                 .filter("id == \(banka.id)")
             
             do {
@@ -83,7 +84,7 @@ extension Storage: Repository {
     }
     
     func getBanks() -> [BankaModel] {
-        let result = instance.objects(RealmBanka.self)
+        let result = instance.objects(RealmBankaModel.self)
         var converted: [BankaModel] = []
         
         converted = result.map { current in
@@ -94,5 +95,49 @@ extension Storage: Repository {
         }
         
         return converted
+    }
+    
+    func addQuotes(list: [QuoteModel], completion: (() -> Void)?) {
+        list.forEach { quote in
+            let realmQuote = RealmQuoteModel()
+            realmQuote.id = "\(id)"
+            realmQuote.anime = quote.anime
+            realmQuote.character = quote.character
+            realmQuote.quote = quote.quote
+            
+            id += 2
+            
+            do {
+                try instance.write({
+                    instance.add(realmQuote)
+                })
+            } catch {
+                print("Error during realm modify")
+            }
+        }
+        completion?()
+    }
+    
+    func getQuotes() -> [QuoteModel] {
+        let result = instance.objects(RealmQuoteModel.self)
+        var converted: [QuoteModel] = []
+        
+        converted = result.map { current in
+            QuoteModel(anime: current.anime, character: current.character, quote: current.quote)
+        }
+        
+        return converted
+    }
+    
+    func deleteQuotes() {
+        let allQotes = instance.objects(RealmQuoteModel.self)
+        
+        do {
+            try instance.write({
+                instance.delete(allQotes)
+            })
+        } catch {
+            print("Error during realm modify")
+        }
     }
 }

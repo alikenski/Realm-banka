@@ -34,12 +34,5 @@ class ViewModel: ObservableObject {
                 self?.bankaList = bankas
             }
         }
-        
-//        first = "\(numberAmount * 0.5)"
-//        second = "\(numberAmount * 0.1)"
-//        third = "\(numberAmount * 0.1)"
-//        fourth = "\(numberAmount * 0.1)"
-//        fives = "\(numberAmount * 0.1)"
-//        sixes = "\(numberAmount * 0.1)"
     }
 }
